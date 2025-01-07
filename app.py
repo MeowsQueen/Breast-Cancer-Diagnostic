@@ -12,16 +12,16 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Title and description
-st.title("Breast Cancer Classification App")
+st.title("Breast Cancer Classification App 🧬")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**.\nClassification backed by me as a **Molecular Biologist**!")
 
 # Display the image of benign and malignant masses seen on mammograms from the URL
 st.image("https://www.mdpi.com/diagnostics/diagnostics-12-03133/article_deploy/html/images/diagnostics-12-03133-g001.png", 
-         caption="Mammogram Image with Diagnostic Insights", use_container_width=True)
+         caption="Mammogram Image with Diagnostic Insights  🩺", use_container_width=True)
 
 # Load the dataset directly from the repository (assuming 'data.csv' is in the same directory as this script)
 df_original = pd.read_csv('data.csv')
-st.write("Dataset Preview:")
+st.write("Dataset Preview  📊")
 st.dataframe(df_original.head())
 
 # Check for necessary columns
@@ -47,13 +47,13 @@ rus = RandomUnderSampler(random_state=42)
 x_resampled, y_resampled = rus.fit_resample(x, y)
 x = pd.DataFrame(x_resampled, columns=x.columns)
 y = pd.Series(y_resampled)
-st.write("Class balancing applied.")
+st.write("Class balancing applied ⚖️")
 
 # Train-test split
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
 # Model selection and training
-model_choice = st.selectbox("Choose a model:", ["Logistic Regression", "Support Vector Machine (SVM)", "Gradient Boosting Machine (GBM)"])
+model_choice = st.selectbox("Choose a model 🔍:", ["Logistic Regression", "Support Vector Machine (SVM)", "Gradient Boosting Machine (GBM)"])
 
 if model_choice == "Logistic Regression":
     model = LogisticRegression(random_state=42)
@@ -78,12 +78,12 @@ elif model_choice == "Gradient Boosting Machine (GBM)":
         'min_samples_split': [2, 5]
     }
 
-with st.spinner("Performing hyperparameter tuning..."):
+with st.spinner("Performing hyperparameter tuning... ⏳"):
     grid_search = GridSearchCV(model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
     grid_search.fit(x_train, y_train)
 
 best_model = grid_search.best_estimator_
-st.write(f"Best hyperparameters: {grid_search.best_params_}")
+st.write(f"Best hyperparameters: {grid_search.best_params_}  🔧")
 
 # Model evaluation
 y_pred = best_model.predict(x_test)
@@ -95,7 +95,7 @@ recall = recall_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred)
 aucroc = roc_auc_score(y_test, y_pred_proba)
 
-st.write("### Model Performance Metrics")
+st.write("### Model Performance Metrics 📈")
 st.write(f"**Accuracy:** {accuracy:.4f}")
 st.write(f"**Precision:** {precision:.4f}")
 st.write(f"**Recall:** {recall:.4f}")
@@ -103,7 +103,7 @@ st.write(f"**F1 Score:** {f1:.4f}")
 st.write(f"**AUC-ROC:** {aucroc:.4f}")
 
 # **User Input for Classification**
-st.subheader("Enter your data for classification")
+st.subheader("Enter your data for classification 📝")
 
 # Getting input data from the user for classification
 input_data = {}
@@ -111,7 +111,7 @@ for col in x.columns:
     input_data[col] = st.number_input(f"Enter value for {col}:", value=float(df_original[col].mean()))
 
 # Button to predict the diagnosis based on the user input
-if st.button("Classify", key="predict_button"):
+if st.button("Classify 🔍", key="predict_button"):
     input_df = pd.DataFrame([input_data])
     input_scaled = scaler.transform(input_df)  # Scaling the user's input
     prediction = best_model.predict(input_scaled)
@@ -122,17 +122,17 @@ if st.button("Classify", key="predict_button"):
 
     # After classification, display the image showing benign and malignant masses
     st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
-             caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
+             caption="Examples of Benign and Malignant Masses on Mammograms 🩺", use_container_width=True)
 
 # **Show ROC Curve, Confusion Matrix, Correlation Matrix, and Feature Importance interactively**
-st.subheader("Visualization Options")
-show_roc_curve = st.checkbox("Show ROC Curve")
-show_conf_matrix = st.checkbox("Show Confusion Matrix")
-show_corr_matrix = st.checkbox("Show Correlation Matrix")
-show_feature_importance = st.checkbox("Show Feature Importance")
+st.subheader("Visualization Options 📊")
+show_roc_curve = st.checkbox("Show ROC Curve 📉")
+show_conf_matrix = st.checkbox("Show Confusion Matrix 🔴")
+show_corr_matrix = st.checkbox("Show Correlation Matrix 🔗")
+show_feature_importance = st.checkbox("Show Feature Importance 💡")
 
 if show_roc_curve:
-    st.subheader("ROC Curve")
+    st.subheader("ROC Curve 🔵")
     fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
     fig, ax = plt.subplots()
     ax.plot(fpr, tpr, label=f"AUC = {auc(fpr, tpr):.4f}")
@@ -144,7 +144,7 @@ if show_roc_curve:
     st.pyplot(fig)
 
 if show_conf_matrix:
-    st.subheader("Confusion Matrix")
+    st.subheader("Confusion Matrix 🔲")
     conf_matrix = confusion_matrix(y_test, y_pred)
     fig, ax = plt.subplots(figsize=(6, 6))
     sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", cbar=False,
@@ -155,7 +155,7 @@ if show_conf_matrix:
     st.pyplot(fig)
 
 if show_corr_matrix:
-    st.subheader("Correlation Matrix")
+    st.subheader("Correlation Matrix 🔗")
     corr = df_original.corr()
     fig, ax = plt.subplots(figsize=(10, 8))
     sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
@@ -163,7 +163,7 @@ if show_corr_matrix:
     st.pyplot(fig)
 
 if show_feature_importance:
-    st.subheader("Feature Importance")
+    st.subheader("Feature Importance 💡")
     if hasattr(best_model, 'feature_importances_'):
         feature_importance = pd.Series(best_model.feature_importances_, index=x.columns).sort_values(ascending=False)
         st.bar_chart(feature_importance)
