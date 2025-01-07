@@ -19,14 +19,10 @@ st.write("Unlock the power of ML to classify breast tumors as **Malignant** or *
 st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
                  caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
 
-# File upload
-uploaded_file = st.file_uploader("Upload your dataset (CSV format):", type="csv")
-
-if uploaded_file is not None:
-    # Load and preprocess data
-    df_original = pd.read_csv(uploaded_file)
-    st.write("Dataset Preview:")
-    st.dataframe(df_original.head())
+# Loading the dataset directly from the repository 
+df_original = pd.read_csv('data.csv')
+st.write("Dataset Preview:")
+st.dataframe(df_original.head())
 
     # Check for necessary columns
     if 'diagnosis' not in df_original.columns:
