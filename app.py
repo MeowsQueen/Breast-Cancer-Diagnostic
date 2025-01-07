@@ -15,9 +15,9 @@ import seaborn as sns
 st.title("Breast Cancer Classification App 🧬")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**. Classification backed by me as a **Molecular Biologist**!")
 
-# Swap the images: Now first image is the "Mammogram Image with Diagnostic Insights"
-st.image("https://www.mdpi.com/diagnostics/diagnostics-12-03133/article_deploy/html/images/diagnostics-12-03133-g001.png", 
-         caption="Mammogram Image with Diagnostic Insights 🩺", use_container_width=True)
+# Display the image of benign and malignant masses seen on mammograms from the URL (program start)
+st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
+         caption="Examples of Benign and Malignant Masses on Mammograms 🩺", use_container_width=True)
 
 # Load the dataset directly from the repository (assuming 'data.csv' is in the same directory as this script)
 df_original = pd.read_csv('data.csv')
@@ -120,9 +120,9 @@ if st.button("Classify 🔍", key="predict_button"):
     result = "Malignant" if prediction[0] == 1 else "Benign"
     st.write(f"The predicted diagnosis is **{result}**.")
 
-    # After classification, display the image showing benign and malignant masses
-    st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
-             caption="Examples of Benign and Malignant Masses on Mammograms 🩺", use_container_width=True)
+    # After classification, display the **MDPI** image
+    st.image("https://www.mdpi.com/diagnostics/diagnostics-12-03133/article_deploy/html/images/diagnostics-12-03133-g001.png", 
+             caption="Mammogram Image with Diagnostic Insights 🩺", use_container_width=True)
 
 # **Show ROC Curve, Confusion Matrix, Correlation Matrix, and Feature Importance interactively**
 st.subheader("Visualization Options 📊")
