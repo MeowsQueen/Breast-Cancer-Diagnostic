@@ -15,9 +15,9 @@ import seaborn as sns
 st.title("Breast Cancer Classification App")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**.\nClassification backed by me as a **Molecular Biologist**!")
 
-# Display another image from the URL
-st.image("https://www.mdpi.com/diagnostics/diagnostics-12-03133/article_deploy/html/images/diagnostics-12-03133-g001.png", 
-         caption="Mammogram Image with Diagnostic Insights", use_container_width=True)
+# Display image from the URL
+st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
+                 caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
 
 # File upload
 uploaded_file = st.file_uploader("Upload your dataset (CSV format):", type="csv")
@@ -125,8 +125,8 @@ if uploaded_file is not None:
         st.write(f"The predicted diagnosis is **{result}**.")
 
         # After classification, display the image showing benign and malignant masses
-        st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
-                 caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
+        st.image("https://www.mdpi.com/diagnostics/diagnostics-12-03133/article_deploy/html/images/diagnostics-12-03133-g001.png", 
+         caption="Mammogram Image with Diagnostic Insights", use_container_width=True)
 
     # **Show ROC Curve, Confusion Matrix, Correlation Matrix, and Feature Importance interactively**
     st.subheader("Visualization Options")
