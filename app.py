@@ -45,8 +45,6 @@ x = pd.DataFrame(x_scaled, columns=x.columns)
 # Class balancing
 rus = RandomUnderSampler(random_state=42)
 x_resampled, y_resampled = rus.fit_resample(x, y)
-x = pd.DataFrame(x_resampled, columns=x.columns)
-y = pd.Series(y_resampled)
 st.write("Class balancing applied ⚖️")
 
 # Train-test split
