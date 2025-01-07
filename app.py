@@ -16,7 +16,7 @@ import seaborn as sns
 
 # Title and description
 st.title("Breast Cancer Classification App")
-st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**. Your input, our classification!")
+st.write("Predict whether a breast tumor is **Malignant** or **Benign** using powerful models: **SVM**, **Gradient Boosting**, and **Logistic Regression**.")
 
 # File upload
 uploaded_file = st.file_uploader("Upload your dataset (CSV format):", type="csv")
@@ -123,10 +123,11 @@ if uploaded_file is not None:
         result = "Malignant" if prediction[0] == 1 else "Benign"
         st.write(f"The predicted diagnosis is **{result}**.")
 
-    # **Show ROC Curve and Confusion Matrix interactively**
+    # **Show ROC Curve, Confusion Matrix, and Correlation Matrix interactively**
     st.subheader("Visualization Options")
     show_roc_curve = st.checkbox("Show ROC Curve")
     show_conf_matrix = st.checkbox("Show Confusion Matrix")
+    show_corr_matrix = st.checkbox("Show Correlation Matrix")
 
     if show_roc_curve:
         st.subheader("ROC Curve")
@@ -149,4 +150,12 @@ if uploaded_file is not None:
         ax.set_title("Confusion Matrix")
         ax.set_ylabel("Actual")
         ax.set_xlabel("Predicted")
+        st.pyplot(fig)
+
+    if show_corr_matrix:
+        st.subheader("Correlation Matrix")
+        corr = df_original.corr()
+        fig, ax = plt.subplots(figsize=(10, 8))
+        sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
+        ax.set_title("Feature Correlation Matrix")
         st.pyplot(fig)
