@@ -45,6 +45,8 @@ x = pd.DataFrame(x_scaled, columns=x.columns)
 # Class balancing
 rus = RandomUnderSampler(random_state=42)
 x_resampled, y_resampled = rus.fit_resample(x, y)
+x = pd.DataFrame(x_resampled, columns=x.columns)
+y = pd.Series(y_resampled)
 st.write("Class balancing applied ⚖️")
 
 # Train-test split
@@ -54,8 +56,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 model_choice = st.selectbox("Choose a model 🔍:", ["Logistic Regression", "Support Vector Machine (SVM)", "Gradient Boosting Machine (GBM)"])
 
 if model_choice == "Logistic Regression":
-    # Adding class_weight='balanced' to handle class imbalance
-    model = LogisticRegression(random_state=42, max_iter=1000, class_weight='balanced')
+    model = LogisticRegression(random_state=42)
     param_grid = {
         'C': [0.001, 0.01, 0.1, 1, 10],
         'penalty': ['l1', 'l2'],
@@ -86,22 +87,20 @@ st.write(f"Best hyperparameters: {grid_search.best_params_}  🔧")
 
 # Model evaluation
 y_pred = best_model.predict(x_test)
-y_pred_proba = None
-if hasattr(best_model, "predict_proba"):
-    y_pred_proba = best_model.predict_proba(x_test)[:, 1]
+y_pred_proba = best_model.predict_proba(x_test)[:, 1]
 
 accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred)
-aucroc = roc_auc_score(y_test, y_pred_proba) if y_pred_proba is not None else "N/A"
+aucroc = roc_auc_score(y_test, y_pred_proba)
 
 st.write("### Model Performance Metrics 📈")
 st.write(f"**Accuracy:** {accuracy:.4f}")
 st.write(f"**Precision:** {precision:.4f}")
 st.write(f"**Recall:** {recall:.4f}")
 st.write(f"**F1 Score:** {f1:.4f}")
-st.write(f"**AUC-ROC:** {aucroc:.4f}" if y_pred_proba is not None else "AUC-ROC: Not Available")
+st.write(f"**AUC-ROC:** {aucroc:.4f}")
 
 # **User Input for Classification**
 st.subheader("Enter your data for classification 📝")
@@ -132,7 +131,7 @@ show_conf_matrix = st.checkbox("Show Confusion Matrix 🔴")
 show_corr_matrix = st.checkbox("Show Correlation Matrix 🔗")
 show_feature_importance = st.checkbox("Show Feature Importance 💡")
 
-if show_roc_curve and y_pred_proba is not None:
+if show_roc_curve:
     st.subheader("ROC Curve 🔵")
     fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
     fig, ax = plt.subplots()
