@@ -6,10 +6,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score,
-    roc_auc_score, confusion_matrix, roc_curve, auc
-)
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, roc_curve, auc
 from imblearn.under_sampling import RandomUnderSampler
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -17,10 +14,6 @@ import seaborn as sns
 # Title and description
 st.title("Breast Cancer Classification App")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**.\nClassification backed by me as a **Molecular Biologist**!")
-
-# Display the image of benign and malignant masses seen on mammograms from the URL
-st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
-         caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
 
 # Display another image from the URL
 st.image("https://www.mdpi.com/diagnostics/diagnostics-12-03133/article_deploy/html/images/diagnostics-12-03133-g001.png", 
@@ -130,6 +123,10 @@ if uploaded_file is not None:
         # Prediction result
         result = "Malignant" if prediction[0] == 1 else "Benign"
         st.write(f"The predicted diagnosis is **{result}**.")
+
+        # After classification, display the image showing benign and malignant masses
+        st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
+                 caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
 
     # **Show ROC Curve, Confusion Matrix, Correlation Matrix, and Feature Importance interactively**
     st.subheader("Visualization Options")
