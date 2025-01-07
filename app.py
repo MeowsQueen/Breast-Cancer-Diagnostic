@@ -16,7 +16,7 @@ import seaborn as sns
 
 # Title and description
 st.title("Breast Cancer Classification App")
-st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**. Your input, and our classification, is backed by me as a **Molecular Biologist**!")
+st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**. \nYour input, and our classification!\nBacked by me as a **Molecular Biologist**!")
 
 # File upload
 uploaded_file = st.file_uploader("Upload your dataset (CSV format):", type="csv")
@@ -123,11 +123,12 @@ if uploaded_file is not None:
         result = "Malignant" if prediction[0] == 1 else "Benign"
         st.write(f"The predicted diagnosis is **{result}**.")
 
-    # **Show ROC Curve, Confusion Matrix, and Correlation Matrix interactively**
+    # **Show ROC Curve, Confusion Matrix, Correlation Matrix, and Feature Importance interactively**
     st.subheader("Visualization Options")
     show_roc_curve = st.checkbox("Show ROC Curve")
     show_conf_matrix = st.checkbox("Show Confusion Matrix")
     show_corr_matrix = st.checkbox("Show Correlation Matrix")
+    show_feature_importance = st.checkbox("Show Feature Importance")
 
     if show_roc_curve:
         st.subheader("ROC Curve")
@@ -159,3 +160,11 @@ if uploaded_file is not None:
         sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
         ax.set_title("Feature Correlation Matrix")
         st.pyplot(fig)
+
+    if show_feature_importance:
+        st.subheader("Feature Importance")
+        if hasattr(best_model, 'feature_importances_'):
+            feature_importance = pd.Series(best_model.feature_importances_, index=x.columns).sort_values(ascending=False)
+            st.bar_chart(feature_importance)
+        else:
+            st.write("Feature Importance is not available for this model.")
