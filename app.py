@@ -87,13 +87,13 @@ st.write(f"Best hyperparameters: {grid_search.best_params_}  🔧")
 
 # Model evaluation
 y_pred = best_model.predict(x_test)
-y_pred_proba = best_model.predict_proba(x_test)[:, 1]
+y_pred_proba = best_model.predict_proba(x_test)[:, 1]  # 1. sınıfın olasılıklarını al
 
 accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred)
-aucroc = roc_auc_score(y_test, y_pred_proba)
+aucroc = roc_auc_score(y_test, y_pred_proba)  # AUC-ROC'yu olasılıklarla hesapla
 
 st.write("### Model Performance Metrics 📈")
 st.write(f"**Accuracy:** {accuracy:.4f}")
