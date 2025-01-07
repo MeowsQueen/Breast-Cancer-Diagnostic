@@ -105,8 +105,8 @@ if uploaded_file is not None:
     st.write(f"**F1 Score:** {f1:.4f}")
     st.write(f"**AUC-ROC:** {aucroc:.4f}")
 
-    # **User Input for Prediction**
-    st.subheader("Enter your data for prediction")
+    # **User Input for Classification**
+    st.subheader("Enter your data for classification")
 
     # Getting input data from the user for classification
     input_data = {}
@@ -114,11 +114,34 @@ if uploaded_file is not None:
         input_data[col] = st.number_input(f"Enter value for {col}:", value=float(df_original[col].mean()))
 
     # Button to predict the diagnosis based on the user input
-    if st.button("Predict", key="predict_button"):
+    if st.button("Classify", key="predict_button"):
         input_df = pd.DataFrame([input_data])
-        input_scaled = scaler.transform(input_df)  # Scale the input data
+        input_scaled = scaler.transform(input_df)  # Scaling the user's input
         prediction = best_model.predict(input_scaled)
 
-        # Display the prediction result
+        # Prediction result
         result = "Malignant" if prediction[0] == 1 else "Benign"
         st.write(f"The predicted diagnosis is **{result}**.")
+
+    # **ROC Curve**
+    st.subheader("ROC Curve")
+    fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+    fig, ax = plt.subplots()
+    ax.plot(fpr, tpr, label=f"AUC = {auc(fpr, tpr):.4f}")
+    ax.plot([0, 1], [0, 1], linestyle='--', color='red', label='Random Guess')
+    ax.set_xlabel("False Positive Rate (FPR)")
+    ax.set_ylabel("True Positive Rate (TPR)")
+    ax.set_title("ROC Curve")
+    ax.legend(loc="lower right")
+    st.pyplot(fig)
+
+    # **Confusion Matrix**
+    st.subheader("Confusion Matrix")
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    fig, ax = plt.subplots(figsize=(6, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", cbar=False,
+                xticklabels=["Benign", "Malignant"], yticklabels=["Benign", "Malignant"])
+    ax.set_title("Confusion Matrix")
+    ax.set_ylabel("Actual")
+    ax.set_xlabel("Predicted")
+    st.pyplot(fig)
