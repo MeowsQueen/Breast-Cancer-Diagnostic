@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Title and description
-st.title("Breast Cancer Prediction App")
+st.title("Breast Cancer Classification App")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**. Your input, our classification!")
 
 # File upload
@@ -123,25 +123,30 @@ if uploaded_file is not None:
         result = "Malignant" if prediction[0] == 1 else "Benign"
         st.write(f"The predicted diagnosis is **{result}**.")
 
-    # **ROC Curve**
-    st.subheader("ROC Curve")
-    fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
-    fig, ax = plt.subplots()
-    ax.plot(fpr, tpr, label=f"AUC = {auc(fpr, tpr):.4f}")
-    ax.plot([0, 1], [0, 1], linestyle='--', color='red', label='Random Guess')
-    ax.set_xlabel("False Positive Rate (FPR)")
-    ax.set_ylabel("True Positive Rate (TPR)")
-    ax.set_title("ROC Curve")
-    ax.legend(loc="lower right")
-    st.pyplot(fig)
+    # **Show ROC Curve and Confusion Matrix interactively**
+    st.subheader("Visualization Options")
+    show_roc_curve = st.checkbox("Show ROC Curve")
+    show_conf_matrix = st.checkbox("Show Confusion Matrix")
 
-    # **Confusion Matrix**
-    st.subheader("Confusion Matrix")
-    conf_matrix = confusion_matrix(y_test, y_pred)
-    fig, ax = plt.subplots(figsize=(6, 6))
-    sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", cbar=False,
-                xticklabels=["Benign", "Malignant"], yticklabels=["Benign", "Malignant"])
-    ax.set_title("Confusion Matrix")
-    ax.set_ylabel("Actual")
-    ax.set_xlabel("Predicted")
-    st.pyplot(fig)
+    if show_roc_curve:
+        st.subheader("ROC Curve")
+        fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+        fig, ax = plt.subplots()
+        ax.plot(fpr, tpr, label=f"AUC = {auc(fpr, tpr):.4f}")
+        ax.plot([0, 1], [0, 1], linestyle='--', color='red', label='Random Guess')
+        ax.set_xlabel("False Positive Rate (FPR)")
+        ax.set_ylabel("True Positive Rate (TPR)")
+        ax.set_title("ROC Curve")
+        ax.legend(loc="lower right")
+        st.pyplot(fig)
+
+    if show_conf_matrix:
+        st.subheader("Confusion Matrix")
+        conf_matrix = confusion_matrix(y_test, y_pred)
+        fig, ax = plt.subplots(figsize=(6, 6))
+        sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", cbar=False,
+                    xticklabels=["Benign", "Malignant"], yticklabels=["Benign", "Malignant"])
+        ax.set_title("Confusion Matrix")
+        ax.set_ylabel("Actual")
+        ax.set_xlabel("Predicted")
+        st.pyplot(fig)
