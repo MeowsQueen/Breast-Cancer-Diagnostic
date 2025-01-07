@@ -17,6 +17,11 @@ import seaborn as sns
 # Title and description
 st.title("Breast Cancer Classification App")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**.\nClassification backed by me as a **Molecular Biologist**!")
+# Display images
+st.image("Breast-Cancer-Diagnostic/Examples-of-benign-and-malignant-masses-seen-on-mammograms-Modified-from-58.png", 
+         caption="Examples of Benign and Malignant Masses on Mammograms", use_column_width=True)
+# Display the "Malignant vs Benign" comparison image
+st.image("Breast-Cancer-Diagnostic/mb.png", caption="Malignant vs Benign Tumors", use_column_width=True)
 
 # File upload
 uploaded_file = st.file_uploader("Upload your dataset (CSV format):", type="csv")
