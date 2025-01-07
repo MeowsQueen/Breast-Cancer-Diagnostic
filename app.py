@@ -58,25 +58,25 @@ model_choice = st.selectbox("Choose a model 🔍:", ["Logistic Regression", "Sup
 if model_choice == "Logistic Regression":
     model = LogisticRegression(random_state=42)
     param_grid = {
-        'C': [0.001, 0.01, 0.1, 1, 10],
-        'penalty': ['l1', 'l2'],
-        'solver': ['liblinear', 'saga']
-    }
+             'C': [0.001, 0.01, 0.1, 1, 10],
+             'penalty': ['l1', 'l2'],
+             'solver': ['liblinear', 'saga']
+}
 elif model_choice == "Support Vector Machine (SVM)":
     model = SVC(probability=True, random_state=42)
     param_grid = {
-        'C': [0.1, 1, 10],
-        'kernel': ['linear', 'rbf', 'poly'],
-        'gamma': ['scale', 'auto']
-    }
+             'C': [0.1, 1, 10],
+             'kernel': ['linear', 'rbf', 'poly'],
+             'gamma': ['scale', 'auto']
+}
 elif model_choice == "Gradient Boosting Machine (GBM)":
     model = GradientBoostingClassifier(random_state=42)
     param_grid = {
-        'n_estimators': [100, 200],
-        'learning_rate': [0.05, 0.1],
-        'max_depth': [3, 4],
-        'min_samples_split': [2, 5]
-    }
+             'n_estimators': [100, 200],
+             'learning_rate': [0.05, 0.1],
+             'max_depth': [3, 4],
+             'min_samples_split': [2, 5]
+}
 
 with st.spinner("Performing hyperparameter tuning... ⏳"):
     grid_search = GridSearchCV(model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
