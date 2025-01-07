@@ -52,17 +52,6 @@ if uploaded_file is not None:
     y = pd.Series(y_resampled)
     st.write("Class balancing applied.")
 
-    # Exploratory Data Analysis
-    st.subheader("Exploratory Data Analysis")
-    if st.checkbox("Show summary statistics"):
-        st.write(df_original.describe())
-
-    if st.checkbox("Show correlation matrix"):
-        corr = df_original.corr()
-        fig, ax = plt.subplots(figsize=(10, 8))
-        sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax)
-        st.pyplot(fig)
-
     # Train-test split
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
 
@@ -116,17 +105,20 @@ if uploaded_file is not None:
     st.write(f"**F1 Score:** {f1:.4f}")
     st.write(f"**AUC-ROC:** {aucroc:.4f}")
 
-    # Prediction vs Actual Visualization
-    st.subheader("Prediction vs Actual Data")
-    fig, ax = plt.subplots()
-    ax.scatter(y_test, y_pred, alpha=0.5)
-    ax.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], 'r--', lw=2)
-    ax.set_xlabel("Actual Diagnosis")
-    ax.set_ylabel("Predicted Diagnosis")
-    ax.set_title("Prediction vs Actual")
-    st.pyplot(fig)
+    # **User Input for Prediction**
+    st.subheader("Enter your data for prediction")
 
-    # Feature Importance
-    if model_choice == "Gradient Boosting Machine (GBM)" and st.checkbox("Show Feature Importance"):
-        feature_importance = pd.Series(best_model.feature_importances_, index=x.columns).sort_values(ascending=False)
-        st.bar_chart(feature_importance)
+    # Getting input data from the user for classification
+    input_data = {}
+    for col in x.columns:
+        input_data[col] = st.number_input(f"Enter value for {col}:", value=float(df_original[col].mean()))
+
+    # Button to predict the diagnosis based on the user input
+    if st.button("Predict", key="predict_button"):
+        input_df = pd.DataFrame([input_data])
+        input_scaled = scaler.transform(input_df)  # Scale the input data
+        prediction = best_model.predict(input_scaled)
+
+        # Display the prediction result
+        result = "Malignant" if prediction[0] == 1 else "Benign"
+        st.write(f"The predicted diagnosis is **{result}**.")
