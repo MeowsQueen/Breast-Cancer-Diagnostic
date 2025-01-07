@@ -16,7 +16,7 @@ import seaborn as sns
 
 # Title and description
 st.title("Breast Cancer Prediction App")
-st.write("Evaluate and visualize machine learning models for breast cancer prediction.")
+st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**. Your input, our classification!")
 
 # File upload
 uploaded_file = st.file_uploader("Upload your dataset (CSV format):", type="csv")
