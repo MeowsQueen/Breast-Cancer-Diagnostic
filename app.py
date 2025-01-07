@@ -54,7 +54,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 model_choice = st.selectbox("Choose a model 🔍:", ["Logistic Regression", "Support Vector Machine (SVM)", "Gradient Boosting Machine (GBM)"])
 
 if model_choice == "Logistic Regression":
-    model = LogisticRegression(random_state=42, max_iter=1000)
+    # Adding class_weight='balanced' to handle class imbalance
+    model = LogisticRegression(random_state=42, max_iter=1000, class_weight='balanced')
     param_grid = {
         'C': [0.001, 0.01, 0.1, 1, 10],
         'penalty': ['l1', 'l2'],
