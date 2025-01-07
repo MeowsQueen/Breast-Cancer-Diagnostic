@@ -19,7 +19,7 @@ st.title("Breast Cancer Classification App")
 st.write("Unlock the power of ML to classify breast tumors as **Malignant** or **Benign** with **SVM**, **Gradient Boosting**, and **Logistic Regression**.\nClassification backed by me as a **Molecular Biologist**!")
 
 # Display the image of benign and malignant masses seen on mammograms from the URL
-st.image("https://www.researchgate.net/publication/363150696/figure/fig1/AS:11431281237136137@1713457936565/Examples-of-benign-and-malignant-masses-seen-on-mammograms-Modified-from-58.tif", 
+st.image("https://www.frontiersin.org/files/Articles/629321/fonc-11-629321-HTML-r1/image_m/fonc-11-629321-g001.jpg", 
          caption="Examples of Benign and Malignant Masses on Mammograms", use_container_width=True)
 
 # Display another image from the URL
