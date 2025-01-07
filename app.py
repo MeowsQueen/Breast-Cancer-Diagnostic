@@ -99,19 +99,17 @@ st.write(f"**Recall:** {recall:.4f}")
 st.write(f"**F1 Score:** {f1:.4f}")
 st.write(f"**AUC-ROC:** {aucroc:.4f}")
 
-# User Input for Classification
-st.subheader("Enter your data for classification 📝")
-
-input_data = {}
-for col in X.columns:
-    input_data[col] = st.number_input(f"Enter value for {col}:", value=float(df[col].mean()))
-
-if st.button("Classify 🔍"):
-    input_df = pd.DataFrame([input_data])
-    input_scaled = scaler.transform(input_df)
-    prediction = best_model.predict(input_scaled)
-    result = "Malignant" if prediction[0] == 1 else "Benign"
-    st.write(f"The predicted diagnosis is **{result}**.")
+# Feature Importance Section
+if st.checkbox("Show Feature Importance 💡"):
+    st.subheader("Feature Importance 💡")
+    if hasattr(best_model, 'feature_importances_'):
+        feature_importance = pd.Series(best_model.feature_importances_, index=X.columns).sort_values(ascending=False)
+        st.bar_chart(feature_importance)
+    elif hasattr(best_model, 'coef_'):
+        feature_importance = pd.Series(best_model.coef_[0], index=X.columns).sort_values(ascending=False)
+        st.bar_chart(feature_importance)
+    else:
+        st.write("Feature Importance is not available for this model.")
 
 # Visualization Options
 st.subheader("Visualization Options 📊")
@@ -134,9 +132,4 @@ if st.checkbox("Show Confusion Matrix 🔲"):
     ax.set_title("Confusion Matrix")
     ax.set_ylabel("Actual")
     ax.set_xlabel("Predicted")
-    st.pyplot(fig)
-
-if st.checkbox("Show Correlation Matrix 🔗"):
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.heatmap(df.corr(), annot=True, cmap="coolwarm")
     st.pyplot(fig)
